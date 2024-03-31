@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import FormInput from '../form-input/froms-input.component';
 import Button from '../button/button.component';
 
+import { UserContext } from '../../context/user.context';
+
 import {
     signInUserAuthWithEmailAndPassword,
     signInWithGooglePopup,
-    createUserDocumentFromAuth
 } from '../../utils/firebase/firebase.utils'
 
 
@@ -20,23 +21,25 @@ const SignInForm = () => {
     const [formField, setFormField] = useState(defaultFormField)
     const { email, password } = formField
 
+    const { setCurrentUser } = useContext(UserContext)
+
     const resetForm = () => {
         setFormField(defaultFormField)
     }
 
     const signInWithGoogle = async () => {
-        const { user } = await signInWithGooglePopup()
-        await createUserDocumentFromAuth(user)
+        await signInWithGooglePopup()
+
     }
 
     const hendleSubmit = async (e) => {
         e.preventDefault()
 
         try {
-            const response = await signInUserAuthWithEmailAndPassword(email, password);
-            console.log(response)
-
+            const { user } = await signInUserAuthWithEmailAndPassword(email, password);
+            console.log(user)
             resetForm()
+            setCurrentUser(user)
         } catch (err) {
             switch (err.code) {
                 case 'auth/email-already-in-use':

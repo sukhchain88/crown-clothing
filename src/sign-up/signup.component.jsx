@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+
+import { UserContext } from '../context/user.context';
+
 import {
 	createUserDocumentFromAuth,
 	createUserAuthWithEmailAndPassword
@@ -21,9 +24,12 @@ const SignUpForm = () => {
 	const [formField, setFormField] = useState(defaultFormField)
 	const { displayName, email, password, confirmPassword } = formField
 
+	const { setCurrentUser } = useContext(UserContext)
+
+
 	const resetFormFields = () => {
 		setFormField(defaultFormField)
-		console.log(setFormField(defaultFormField))
+
 	}
 
 	const hendleSubmit = async (e) => {
@@ -35,10 +41,14 @@ const SignUpForm = () => {
 		}
 
 		try {
-			const { user } = await createUserAuthWithEmailAndPassword(email, password);
-			await createUserDocumentFromAuth(user, { displayName });
+			const { user } = await createUserAuthWithEmailAndPassword(
+				email,
+				password
+			);
 
+			await createUserDocumentFromAuth(user, { displayName });
 			resetFormFields()
+			setCurrentUser(user)
 
 		} catch (err) {
 			switch (err.code) {

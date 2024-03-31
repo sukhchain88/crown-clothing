@@ -6,17 +6,20 @@ import { initializeApp } from "firebase/app";
 import {
     getAuth,
     signInWithPopup,
-    signInWithRedirect,
+    // signInWithRedirect,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth'
 import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    writeBatch
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -49,6 +52,21 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
  */
 
 const db = getFirestore()
+
+export const addcollectionAndDocuments = async (
+    collectionKey,
+    objectsToAdd
+) => {
+    const batch = writeBatch(db);
+    const collectionRef = collection(db, collectionKey);
+
+    objectsToAdd.forEach(object => {
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object)
+    });
+    await batch.commit();
+    console.log('done')
+}
 
 export const createUserDocumentFromAuth = async (userAuth, additionalSetting) => {
     if (!userAuth) return;
@@ -89,3 +107,4 @@ export const signInUserAuthWithEmailAndPassword = async (email, password) => {
 }
 
 export const signOutUser = async () => await signOut(auth)
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
