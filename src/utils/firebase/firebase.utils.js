@@ -47,18 +47,15 @@ export const auth = getAuth();
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
-/**
- * Firebase store
- */
 
 const db = getFirestore()
 
-export const addcollectionAndDocuments = async (
+export const addCollectionAndDocuments = async (
     collectionKey,
     objectsToAdd
 ) => {
-    const batch = writeBatch(db);
     const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
 
     objectsToAdd.forEach(object => {
         const docRef = doc(collectionRef, object.title.toLowerCase());
@@ -87,10 +84,10 @@ export const createUserDocumentFromAuth = async (userAuth, additionalSetting) =>
                 ...additionalSetting
             })
         } catch (err) {
-            console.log('createUserDocumentFromAuth', err)
+            console.log('createUserDocumentFromAuth', err);
         }
     }
-    return userDocRef
+    return userDocRef;
 }
 
 
