@@ -2,6 +2,7 @@ import { useContext } from 'react';
 
 import { CartContext } from '../../context/cart.context';
 
+
 import Button from '../button/button.component';
 import './product-cart.style.scss';
 
@@ -9,6 +10,8 @@ import './product-cart.style.scss';
 const ProductCart = ({ product }) => {
     const { name, price, imageUrl } = product;
     const { addItemToCart } = useContext(CartContext)
+
+
 
     const addItemToCartHendler = () => addItemToCart(product)
 

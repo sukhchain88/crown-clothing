@@ -1,6 +1,4 @@
-/** 
- * Import the functions you need from the SDKs you need
- * */
+
 import { initializeApp } from "firebase/app";
 
 import {
@@ -19,7 +17,9 @@ import {
     getDoc,
     setDoc,
     collection,
-    writeBatch
+    writeBatch,
+    getDocs,
+    query
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -64,6 +64,21 @@ export const addCollectionAndDocuments = async (
     await batch.commit();
     console.log('done')
 }
+
+
+export const getCategoriesAndDocument = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+
+    const querySnapshort = await getDocs(q)
+    const categoryMap = querySnapshort.docs.reduce((acc, docSnapshort) => {
+        const { title, items } = docSnapshort.data();
+        acc[title.toLowerCase()] = items;
+        return acc
+    }, {})
+    return categoryMap
+}
+
 
 export const createUserDocumentFromAuth = async (userAuth, additionalSetting) => {
     if (!userAuth) return;
