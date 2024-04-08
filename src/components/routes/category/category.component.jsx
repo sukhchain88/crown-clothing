@@ -1,10 +1,10 @@
+import React from "react";
 import { useContext, useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ProductCart from '../../product-cart/product-cart.component';
 
 import { CategoriesContext } from '../../../context/categories.context'
-
 import './category.style.scss'
 
 const Category = () => {

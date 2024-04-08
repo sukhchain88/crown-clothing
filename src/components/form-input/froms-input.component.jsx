@@ -1,3 +1,4 @@
+import React from 'react'
 import './froms-input.style.scss'
 
 const FormInput = ({ label, ...otherProps }) => {

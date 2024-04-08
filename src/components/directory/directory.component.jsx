@@ -1,15 +1,17 @@
+import React from 'react'
 import DirectoryItems from "../directory-item/directory-item.cmponent";
+import "./directory.style.scss";
 
-import './directory.style.scss'
+import { category } from "../../shop-data/shop-data";
 
-const Driectory = ({ categories }) => {
-    return (
-        <div className="directory-container">
-            {categories.map(category => (
-                <DirectoryItems key={category.id} category={category} />
-            ))}
-        </div>
-    );
-}
+const Driectory = () => {
+  return (
+    <div className="directory-container">
+      {category.map((category) => (
+        <DirectoryItems key={category.id} category={category} />
+      ))}
+    </div>
+  );
+};
 
-export default Driectory
+export default Driectory;

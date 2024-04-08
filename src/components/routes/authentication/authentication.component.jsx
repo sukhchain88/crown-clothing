@@ -1,3 +1,4 @@
+import React from 'react'
 import SignUpForm from "../../../sign-up/signup.component"
 import SignInForm from "../../sign-in/sign-in.component"
 

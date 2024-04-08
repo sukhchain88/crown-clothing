@@ -1,28 +1,27 @@
-import { useContext, Fragment } from 'react';
+import React from "react";
 
-import CategoryPreview from '../../category-preview/category-preview.component';
+import { useContext, Fragment } from "react";
 
-import { CategoriesContext } from '../../../context/categories.context';
+import CategoryPreview from "../../category-preview/category-preview.component";
 
-
+import { CategoriesContext } from "../../../context/categories.context";
+import SearchBox from "../../searchBox/search-box.component";
 
 const CategoriesPreview = () => {
-    const { categoryMap } = useContext(CategoriesContext)
+  const { categoryMap } = useContext(CategoriesContext);
 
-    return (
-        <Fragment>
-            {
-                Object.keys(categoryMap).map(title => {
-                    const products = categoryMap[title];
-                    return (
-                        <CategoryPreview key={title} title={title} products={products} />
-                    )
-                }
-                )
-            }
+  return (
+    <Fragment>
+      <SearchBox />
+      {Object.keys(categoryMap).map((title) => {
 
-        </Fragment>
-    )
-}
+        let products = categoryMap[title];
+        return (
+          <CategoryPreview key={title} title={title} products={products} />
+        );
+      })}
+    </Fragment>
+  );
+};
 
-export default CategoriesPreview
+export default CategoriesPreview;
